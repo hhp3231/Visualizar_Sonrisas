@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generador JSON - Recibo Sonrisas</title>
+<style>
+body {font-family: Arial, sans-serif; background:#f4f6f9; padding:20px;}
+.container {max-width:800px; margin:auto; background:white; padding:30px; border-radius:12px;}
+input, button {padding:10px; margin:10px 0; width:100%;}
+button {background:#007bff; color:white; border:none; border-radius:6px; cursor:pointer;}
+button:hover {background:#0056b3;}
+</style>
+</head>
+<body>
+<div class="container">
+<h2>🔐 Generador de data.json</h2>
+<p>Sube el CSV separado por punto y coma (;). Se descargará el nuevo data.json listo para subir a GitHub.</p>
+
+<input type="file" id="fileInput" accept=".csv">
+<button onclick="convertir()">Convertir y Descargar JSON</button>
+</div>
+
+<script>
+function convertir() {
+    const fileInput = document.getElementById("fileInput");
+    const file = fileInput.files[0];
+    if (!file) return alert("Seleccione un archivo CSV");
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const text = e.target.result.trim();
+        const rows = text.split("\n").map(r => r.split(";"));
+        
+        const formatted = rows.map(r => ({
+            fecha: r[0] || "",
+            emisor: r[1] || "",
+            receptor: r[2] || "",
+            concepto: r[3] || "",
+            valor: r[4] || "",
+            estado: r[5] || ""
+        }));
+
+        const blob = new Blob([JSON.stringify(formatted, null, 2)], {type: "application/json"});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "data.json";
+        a.click();
+        URL.revokeObjectURL(url);
+    };
+    reader.readAsText(file);
+}
+</script>
+
+</body>
+</html>
