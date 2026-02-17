@@ -17,12 +17,27 @@ body{margin:0;font-family:'Segoe UI',sans-serif;background:linear-gradient(135de
 75%{transform:translate(150px,150px);}
 100%{transform:translate(0,0);}
 }
-.container{position:relative;z-index:2;max-width:1200px;margin:auto;padding:30px;}
+.container{position:relative;z-index:2;max-width:1300px;margin:auto;padding:30px;}
 h1{text-align:center;margin-bottom:20px;}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;}
-.card{backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.6);border-radius:20px;padding:20px;text-align:center;}
+.stats{
+display:grid;
+grid-template-columns:180px 180px 180px 1fr;
+gap:20px;
+align-items:stretch;
+}
+.card{
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,0.6);
+border-radius:20px;
+padding:20px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+}
 .card h3{margin:0;font-size:14px;}
-.card p{font-size:28px;margin:10px 0 0 0;font-weight:bold;}
+.card p{font-size:30px;margin-top:10px;font-weight:bold;}
 .search-box{margin-top:25px;}
 .search-box input{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1px solid #ccc;margin-bottom:10px;}
 table{width:100%;border-collapse:collapse;margin-top:25px;display:none;}
@@ -58,7 +73,7 @@ document.body.appendChild(e);
 
 <div class="card">
 <h3>% Valores Organizacionales</h3>
-<canvas id="valoresChart" height="180"></canvas>
+<canvas id="valoresChart" height="120"></canvas>
 </div>
 </div>
 
@@ -168,6 +183,7 @@ datasets:datasets
 options:{
 indexAxis:'y',
 responsive:true,
+animation:{duration:1200},
 plugins:{
 legend:{position:'bottom'},
 tooltip:{
@@ -191,25 +207,7 @@ stacked:true,
 display:false
 }
 }
-},
-plugins:[{
-id:'percentageLabels',
-afterDatasetsDraw(chart){
-const {ctx}=chart;
-ctx.save();
-chart.data.datasets.forEach((dataset,i)=>{
-const meta=chart.getDatasetMeta(i);
-meta.data.forEach((bar,index)=>{
-let value=dataset.data[index];
-let percentage=((value/total)*100).toFixed(1)+"%";
-ctx.fillStyle="#fff";
-ctx.font="bold 12px Segoe UI";
-ctx.textAlign="center";
-ctx.fillText(percentage,bar.x-(bar.width/2)+bar.width/2,bar.y+4);
-});
-});
 }
-}]
 });
 }
 
@@ -221,7 +219,7 @@ const noResults=document.getElementById("noResults");
 
 function aplicarFiltros(){
 let emisorFiltro=filterEmisor.value.toLowerCase();
-let receptorFiltro=filterReceptor.value.toLowerCase();
+let receptorFiltro=receptorFiltro=filterReceptor.value.toLowerCase();
 
 tbody.innerHTML="";
 
