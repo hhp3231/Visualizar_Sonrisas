@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ultra Dashboard Recibo Sonrisas</title>
+<style>
+body{margin:0;font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#e0f2ff,#f8fbff);overflow-x:hidden;}
+.emoji{position:fixed;font-size:18px;animation:move 20s linear infinite;opacity:0.15;z-index:0;}
+@keyframes move{
+0%{transform:translate(0,0);}
+25%{transform:translate(200px,-150px);}
+50%{transform:translate(-150px,200px);}
+75%{transform:translate(150px,150px);}
+100%{transform:translate(0,0);}
+}
+.container{position:relative;z-index:2;max-width:1200px;margin:auto;padding:30px;}
+h1{text-align:center;margin-bottom:20px;}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;}
+.card{backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.6);border-radius:20px;padding:20px;text-align:center;}
+.card h3{margin:0;font-size:14px;}
+.card p{font-size:28px;margin:10px 0 0 0;font-weight:bold;}
+.search-box{margin-top:25px;}
+.search-box input{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1px solid #ccc;}
+table{width:100%;border-collapse:collapse;margin-top:25px;display:none;}
+th,td{padding:10px;border-bottom:1px solid #ddd;font-size:14px;}
+th{text-align:left;}
+.no-results{display:none;margin-top:15px;font-weight:bold;}
+.ranking{margin-top:40px;}
+.ranking table{display:table;}
+</style>
+</head>
+<body>
+
+<script>
+for(let i=0;i<25;i++){
+const e=document.createElement("div");
+e.className="emoji";
+e.innerText="😊";
+e.style.top=Math.random()*100+"vh";
+e.style.left=Math.random()*100+"vw";
+e.style.animationDuration=(15+Math.random()*20)+"s";
+document.body.appendChild(e);
+}
+</script>
+
+<div class="container">
+<h1>Ultra Dashboard Recibo Sonrisas 😊</h1>
+
+<div class="stats">
+<div class="card"><h3>Total Registros</h3><p id="totalRegistros">0</p></div>
+<div class="card"><h3>Total Sonrisas</h3><p id="totalValor">0</p></div>
+<div class="card"><h3>Personas Impactadas</h3><p id="totalPersonas">0</p></div>
+</div>
+
+<div class="search-box">
+<input type="text" id="searchInput" placeholder="Buscar por nombre...">
+</div>
+
+<table id="resultsTable">
+<thead>
+<tr><th>Fecha</th><th>Emisor</th><th>Receptor</th><th>Concepto</th><th>Valor</th><th>Estado</th></tr>
+</thead>
+<tbody></tbody>
+</table>
+
+<div class="no-results" id="noResults">No se encontraron resultados.</div>
+
+<div class="ranking">
+<h2>Ranking Top Personas con más Sonrisas Recibidas</h2>
+<table>
+<thead><tr><th>#</th><th>Persona</th><th>Total Sonrisas</th></tr></thead>
+<tbody id="rankingBody"></tbody>
+</table>
+</div>
+
+</div>
+
+<script>
+let data=[];
+
+fetch("data.json?v="+new Date().getTime())
+.then(res=>res.json())
+.then(json=>{data=json;actualizarDashboard(data);});
+
+function actualizarDashboard(dataset){
+document.getElementById("totalRegistros").innerText=dataset.length;
+let totalValor=0;
+let personas=new Set();
+let rankingMap={};
+
+dataset.forEach(r=>{
+let valor=parseFloat(r.valor)||0;
+totalValor+=valor;
+personas.add(r.emisor);
+personas.add(r.receptor);
+if(!rankingMap[r.receptor]) rankingMap[r.receptor]=0;
+rankingMap[r.receptor]+=valor;
+});
+
+document.getElementById("totalValor").innerText=totalValor;
+document.getElementById("totalPersonas").innerText=personas.size;
+actualizarRanking(rankingMap);
+}
+
+function actualizarRanking(map){
+let arr=Object.entries(map).sort((a,b)=>b[1]-a[1]).slice(0,10);
+const tbody=document.getElementById("rankingBody");
+tbody.innerHTML="";
+arr.forEach((item,i)=>{
+tbody.innerHTML+=`<tr><td>${i+1}</td><td>${item[0]}</td><td>${item[1]}</td></tr>`;
+});
+}
+
+const input=document.getElementById("searchInput");
+const table=document.getElementById("resultsTable");
+const tbody=table.querySelector("tbody");
+const noResults=document.getElementById("noResults");
+
+input.addEventListener("keyup",function(){
+const filter=input.value.toLowerCase();
+tbody.innerHTML="";
+if(filter.length<2){
+table.style.display="none";
+noResults.style.display="none";
+actualizarDashboard(data);
+return;
+}
+const filtered=data.filter(r=>r.emisor.toLowerCase().includes(filter)||r.receptor.toLowerCase().includes(filter));
+if(filtered.length===0){
+table.style.display="none";
+noResults.style.display="block";
+actualizarDashboard([]);
+return;
+}
+table.style.display="table";
+noResults.style.display="none";
+filtered.forEach(r=>{
+tbody.innerHTML+=`<tr><td>${r.fecha}</td><td>${r.emisor}</td><td>${r.receptor}</td><td>${r.concepto}</td><td>${r.valor}</td><td>${r.estado}</td></tr>`;
+});
+actualizarDashboard(filtered);
+});
+</script>
+
+</body>
+</html>
