@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Historial Sonrisas</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+body{
+    margin:0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg,#eef2ff,#f8fafc);
+}
+
+header{
+    padding:25px;
+    text-align:center;
+    font-size:30px;
+    font-weight:bold;
+}
+
+.container{
+    padding:20px;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+    margin-bottom:25px;
+}
+
+.card{
+    background:rgba(255,255,255,0.7);
+    backdrop-filter: blur(10px);
+    border-radius:18px;
+    padding:25px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+    text-align:center;
+}
+
+.card h3{
+    margin:0;
+    font-size:14px;
+    color:#555;
+}
+
+.card p{
+    font-size:26px;
+    margin-top:10px;
+    font-weight:bold;
+}
+
+.filters{
+    margin-bottom:25px;
+}
+
+select{
+    padding:10px;
+    border-radius:10px;
+    border:1px solid #ccc;
+    margin-right:15px;
+    min-width:200px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+    margin-top:20px;
+}
+
+th,td{
+    padding:12px;
+    border-bottom:1px solid #eee;
+}
+
+th{
+    background:#111827;
+    color:white;
+}
+
+.section-title{
+    margin-top:40px;
+    margin-bottom:10px;
+    font-weight:bold;
+    font-size:20px;
+}
+</style>
+</head>
+
+<body>
+
+<header>😊 Historial Sonrisas</header>
+
+<div class="container">
+
+<div class="cards">
+<div class="card">
+<h3>Participantes Activos</h3>
+<p id="participantes">0</p>
+</div>
+
+<div class="card">
+<h3>Da Sonrisas</h3>
+<p id="emisores">0</p>
+</div>
+
+<div class="card">
+<h3>Recibe Sonrisas</h3>
+<p id="receptores">0</p>
+</div>
+
+<div class="card">
+<canvas id="valorChart"></canvas>
+</div>
+</div>
+
+<div class="filters">
+<select id="filterDa"></select>
+<select id="filterRecibe"></select>
+</div>
+
+<table>
+<thead>
+<tr>
+<th>Fecha</th>
+<th>Da Sonrisas</th>
+<th>Recibe Sonrisas</th>
+<th>Valor organizacional</th>
+</tr>
+</thead>
+<tbody id="tablaBody"></tbody>
+</table>
+
+<div class="section-title">🔝 Top 10</div>
+<table>
+<thead>
+<tr>
+<th>Trabajador</th>
+<th>Total Sonrisas</th>
+</tr>
+</thead>
+<tbody id="topBody"></tbody>
+</table>
+
+</div>
+
+<script>
+
+let dataGlobal = [
+/* 
+FORMATO:
+["2026-02-01","Sandra","Camila","Respeto"]
+PUEDES PEGAR AQUÍ TUS DATOS SI NO QUIERES USAR ARCHIVO
+*/
+];
+
+let chart;
+
+// Inicializar (si ya tienes datos cargados manualmente)
+fillSelects();
+applyFilters();
+renderTop10(dataGlobal);
+
+function fillSelects(){
+
+    const daSet = new Set();
+    const recibeSet = new Set();
+
+    dataGlobal.forEach(r=>{
+        daSet.add(r[1]);
+        recibeSet.add(r[2]);
+    });
+
+    const daSelect = document.getElementById("filterDa");
+    const recibeSelect = document.getElementById("filterRecibe");
+
+    daSelect.innerHTML='<option value="">Todos (Da Sonrisas)</option>';
+    recibeSelect.innerHTML='<option value="">Todos (Recibe Sonrisas)</option>';
+
+    daSet.forEach(v=>{
+        daSelect.innerHTML+=`<option>${v}</option>`;
+    });
+
+    recibeSet.forEach(v=>{
+        recibeSelect.innerHTML+=`<option>${v}</option>`;
+    });
+
+    daSelect.onchange = applyFilters;
+    recibeSelect.onchange = applyFilters;
+}
+
+function applyFilters(){
+
+    const da = document.getElementById("filterDa").value;
+    const recibe = document.getElementById("filterRecibe").value;
+
+    let filtered = dataGlobal.filter(r=>{
+        return (!da || r[1]==da) &&
+               (!recibe || r[2]==recibe);
+    });
+
+    renderTable(filtered);
+    updateCards(filtered);
+    renderChart(filtered);
+}
+
+function renderTable(data){
+    const tbody = document.getElementById("tablaBody");
+    tbody.innerHTML="";
+    data.forEach(r=>{
+        tbody.innerHTML+=`
+        <tr>
+        <td>${r[0]}</td>
+        <td>${r[1]}</td>
+        <td>${r[2]}</td>
+        <td>${r[3]}</td>
+        </tr>`;
+    });
+}
+
+function updateCards(data){
+
+    const participantes = new Set();
+    const emisores = new Set();
+    const receptores = new Set();
+
+    data.forEach(r=>{
+        participantes.add(r[1]);
+        participantes.add(r[2]);
+        emisores.add(r[1]);
+        receptores.add(r[2]);
+    });
+
+    document.getElementById("participantes").innerText = participantes.size;
+    document.getElementById("emisores").innerText = emisores.size;
+    document.getElementById("receptores").innerText = receptores.size;
+}
+
+function renderChart(data){
+
+    const valores={};
+    data.forEach(r=>{
+        valores[r[3]]=(valores[r[3]]||0)+1;
+    });
+
+    const labels = Object.keys(valores);
+    const total = Object.values(valores).reduce((a,b)=>a+b,0) || 1;
+    const percentages = Object.values(valores).map(v=>((v/total)*100).toFixed(1));
+
+    if(chart) chart.destroy();
+
+    chart = new Chart(document.getElementById("valorChart"),{
+        type:"doughnut",
+        data:{
+            labels:labels,
+            datasets:[{data:percentages}]
+        },
+        options:{
+            plugins:{
+                tooltip:{
+                    callbacks:{
+                        label:function(ctx){
+                            return ctx.label+": "+ctx.parsed+"%";
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+function renderTop10(data){
+
+    const counts={};
+
+    data.forEach(r=>{
+        counts[r[2]]=(counts[r[2]]||0)+1;
+    });
+
+    const sorted = Object.entries(counts)
+    .sort((a,b)=>b[1]-a[1])
+    .slice(0,10);
+
+    const tbody = document.getElementById("topBody");
+    tbody.innerHTML="";
+
+    sorted.forEach(r=>{
+        tbody.innerHTML+=`
+        <tr>
+        <td>${r[0]}</td>
+        <td>${r[1]}</td>
+        </tr>`;
+    });
+}
+
+</script>
+</body>
+</html>
