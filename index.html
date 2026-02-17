@@ -55,9 +55,10 @@ document.body.appendChild(e);
 <div class="card"><h3>Total Registros</h3><p id="totalRegistros">0</p></div>
 <div class="card"><h3>Total Sonrisas</h3><p id="totalValor">0</p></div>
 <div class="card"><h3>Personas Impactadas</h3><p id="totalPersonas">0</p></div>
+
 <div class="card">
 <h3>% Valores Organizacionales</h3>
-<canvas id="valoresChart" width="180" height="180"></canvas>
+<canvas id="valoresChart" height="180"></canvas>
 </div>
 </div>
 
@@ -145,25 +146,70 @@ const ctx=document.getElementById('valoresChart').getContext('2d');
 
 let labels=Object.keys(valoresMap);
 let values=Object.values(valoresMap);
+let total=values.reduce((a,b)=>a+b,0);
 
 if(chart) chart.destroy();
 
-chart=new Chart(ctx,{
-type:'doughnut',
-data:{
-labels:labels,
-datasets:[{
-data:values,
+let datasets = labels.map((label,i)=>({
+label:label,
+data:[values[i]],
 backgroundColor:[
-'#4facfe','#43e97b','#fa709a','#f6d365','#a18cd1',
-'#30cfd0','#f093fb','#ff9a9e','#667eea','#89f7fe'
-]
-}]
+'#4facfe','#43e97b','#fa709a','#f6d365',
+'#a18cd1','#30cfd0','#f093fb'
+][i%7]
+}));
+
+chart=new Chart(ctx,{
+type:'bar',
+data:{
+labels:["Distribución"],
+datasets:datasets
 },
 options:{
-plugins:{legend:{position:'bottom'}},
-cutout:'65%'
+indexAxis:'y',
+responsive:true,
+plugins:{
+legend:{position:'bottom'},
+tooltip:{
+callbacks:{
+label:function(context){
+let value=context.raw;
+let percentage=((value/total)*100).toFixed(1);
+return context.dataset.label+": "+percentage+"%";
 }
+}
+}
+},
+scales:{
+x:{
+stacked:true,
+max:total,
+display:false
+},
+y:{
+stacked:true,
+display:false
+}
+}
+},
+plugins:[{
+id:'percentageLabels',
+afterDatasetsDraw(chart){
+const {ctx}=chart;
+ctx.save();
+chart.data.datasets.forEach((dataset,i)=>{
+const meta=chart.getDatasetMeta(i);
+meta.data.forEach((bar,index)=>{
+let value=dataset.data[index];
+let percentage=((value/total)*100).toFixed(1)+"%";
+ctx.fillStyle="#fff";
+ctx.font="bold 12px Segoe UI";
+ctx.textAlign="center";
+ctx.fillText(percentage,bar.x-(bar.width/2)+bar.width/2,bar.y+4);
+});
+});
+}
+}]
 });
 }
 
@@ -215,3 +261,4 @@ filterReceptor.addEventListener("keyup",aplicarFiltros);
 
 </body>
 </html>
+
