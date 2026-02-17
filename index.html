@@ -178,6 +178,8 @@ tbody.innerHTML+=`<tr><td>${i+1}</td><td>${item[0]}</td><td>${item[1]}</td></tr>
 function actualizarGrafico(valoresMap){
 const ctx=document.getElementById('valoresChart').getContext('2d');
 
+delete valoresMap["Valor Organizacional"];
+
 let labels=Object.keys(valoresMap);
 let values=Object.values(valoresMap);
 let total=values.reduce((a,b)=>a+b,0);
@@ -271,3 +273,4 @@ filterReceptor.addEventListener("keyup",aplicarFiltros);
 
 </body>
 </html>
+
