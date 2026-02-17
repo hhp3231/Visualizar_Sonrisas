@@ -19,12 +19,14 @@ body{margin:0;font-family:'Segoe UI',sans-serif;background:linear-gradient(135de
 }
 .container{position:relative;z-index:2;max-width:1300px;margin:auto;padding:30px;}
 h1{text-align:center;margin-bottom:20px;}
+
 .stats{
 display:grid;
 grid-template-columns:180px 180px 180px 1fr;
 gap:20px;
-align-items:stretch;
+align-items:center;
 }
+
 .card{
 backdrop-filter:blur(12px);
 border:1px solid rgba(255,255,255,0.6);
@@ -36,14 +38,29 @@ justify-content:center;
 align-items:center;
 text-align:center;
 }
+
 .card h3{margin:0;font-size:14px;}
 .card p{font-size:30px;margin-top:10px;font-weight:bold;}
+
+.grafica-card{
+display:flex;
+flex-direction:column;
+align-items:center;
+}
+
+#graficaWrapper{
+width:50%;
+}
+
 .search-box{margin-top:25px;}
 .search-box input{width:100%;padding:12px;font-size:16px;border-radius:12px;border:1px solid #ccc;margin-bottom:10px;}
+
 table{width:100%;border-collapse:collapse;margin-top:25px;display:none;}
 th,td{padding:10px;border-bottom:1px solid #ddd;font-size:14px;}
 th{text-align:left;}
+
 .no-results{display:none;margin-top:15px;font-weight:bold;}
+
 .ranking{margin-top:40px;}
 .ranking table{display:table;}
 </style>
@@ -71,9 +88,11 @@ document.body.appendChild(e);
 <div class="card"><h3>Total Sonrisas</h3><p id="totalValor">0</p></div>
 <div class="card"><h3>Personas Impactadas</h3><p id="totalPersonas">0</p></div>
 
-<div class="card">
+<div class="card grafica-card">
 <h3>% Valores Organizacionales</h3>
-<canvas id="valoresChart" height="120"></canvas>
+<div id="graficaWrapper">
+<canvas id="valoresChart" height="100"></canvas>
+</div>
 </div>
 </div>
 
@@ -183,7 +202,7 @@ datasets:datasets
 options:{
 indexAxis:'y',
 responsive:true,
-animation:{duration:1200},
+animation:{duration:1000},
 plugins:{
 legend:{position:'bottom'},
 tooltip:{
@@ -197,15 +216,8 @@ return context.dataset.label+": "+percentage+"%";
 }
 },
 scales:{
-x:{
-stacked:true,
-max:total,
-display:false
-},
-y:{
-stacked:true,
-display:false
-}
+x:{stacked:true,max:total,display:false},
+y:{stacked:true,display:false}
 }
 }
 });
@@ -219,7 +231,7 @@ const noResults=document.getElementById("noResults");
 
 function aplicarFiltros(){
 let emisorFiltro=filterEmisor.value.toLowerCase();
-let receptorFiltro=receptorFiltro=filterReceptor.value.toLowerCase();
+let receptorFiltro=filterReceptor.value.toLowerCase();
 
 tbody.innerHTML="";
 
@@ -259,4 +271,3 @@ filterReceptor.addEventListener("keyup",aplicarFiltros);
 
 </body>
 </html>
-
