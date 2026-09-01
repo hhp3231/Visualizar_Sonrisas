@@ -1,0 +1,226 @@
+[
+  {
+    "fecha": "CORREO",
+    "emisor": "TDOC",
+    "receptor": "IDENTIFICACION",
+    "concepto": "NOMBRE_COMPLETO",
+    "valor": "PUNTOS",
+    "estado": "BORRADO\r"
+  },
+  {
+    "fecha": "lprada@staffing.com.co",
+    "emisor": "CC",
+    "receptor": "",
+    "concepto": "Luis Prada | Analista Contable",
+    "valor": "2000",
+    "estado": "\r"
+  },
+  {
+    "fecha": "analistatesoreria@staffing.com.co",
+    "emisor": "CC",
+    "receptor": "",
+    "concepto": "Julieth Quintana | Analista de Tesorería",
+    "valor": "2000",
+    "estado": "\r"
+  },
+  {
+    "fecha": "aux.atraccion@staffing.com.co",
+    "emisor": "CC",
+    "receptor": "",
+    "concepto": "Magda Alejo | Auxiliar de Atracción",
+    "valor": "2000",
+    "estado": "\r"
+  },
+  {
+    "fecha": "aamortegui@staffing.com.co",
+    "emisor": "CC",
+    "receptor": "",
+    "concepto": "Angelica Amórtegui | Analista Contable",
+    "valor": "2000",
+    "estado": "\r"
+  },
+  {
+    "fecha": "auxvinculacion5@staffing.com.co",
+    "emisor": "CC",
+    "receptor": "",
+    "concepto": "Yvi Guisao | Auxiliar de vinculación",
+    "valor": "2000",
+    "estado": "\r"
+  },
+  {
+    "fecha": "terminaciones@staffing.com.co",
+    "emisor": "CC",
+    "receptor": "",
+    "concepto": "Leidy Garzón | Analista de Terminaciones",
+    "valor": "2000",
+    "estado": "\r"
+  },
+  {
+    "fecha": "auxvinculacion5@staffing.com.co",
+    "emisor": "CC",
+    "receptor": "",
+    "concepto": "Yvi Guisao | Auxiliar de vinculación",
+    "valor": "2000",
+    "estado": "\r"
+  },
+  {
+    "fecha": "terminaciones@staffing.com.co",
+    "emisor": "CC",
+    "receptor": "",
+    "concepto": "Leidy Garzón | Analista de Terminaciones",
+    "valor": "2000",
+    "estado": "\r"
+  },
+  {
+    "fecha": "zsierra@staffing.com.co",
+    "emisor": "CC",
+    "receptor": "",
+    "concepto": "Zully Sierra | Auxiliar de Atracción",
+    "valor": "2000",
+    "estado": "\r"
+  },
+  {
+    "fecha": "aux.atraccion@staffing.com.co",
+    "emisor": "CC",
+    "receptor": "",
+    "concepto": "Magda Alejo | Auxiliar de Atracción",
+    "valor": "2000",
+    "estado": "\r"
+  },
+  {
+    "fecha": "nuvalcarcel@staffing.com.co",
+    "emisor": "CC",
+    "receptor": "",
+    "concepto": "Nury Valcarcel | Analista De Nómina Junior",
+    "valor": "2000",
+    "estado": "\r"
+  },
+  {
+    "fecha": "analistatesoreria@staffing.com.co",
+    "emisor": "CC",
+    "receptor": "",
+    "concepto": "Julieth Quintana | Analista de Tesorería",
+    "valor": "2000",
+    "estado": "\r"
+  },
+  {
+    "fecha": "aamortegui@staffing.com.co",
+    "emisor": "CC",
+    "receptor": "",
+    "concepto": "Angelica Amórtegui | Analista Contable",
+    "valor": "2000",
+    "estado": "\r"
+  },
+  {
+    "fecha": "apico@staffing.com.co",
+    "emisor": "CC",
+    "receptor": "",
+    "concepto": "Antonio Pico | Diseñador Grafico",
+    "valor": "2000",
+    "estado": "\r"
+  },
+  {
+    "fecha": "projas@staffing.com.co",
+    "emisor": "CC",
+    "receptor": "",
+    "concepto": "Paula Rojas | Diseñador Grafico Jr",
+    "valor": "2000",
+    "estado": "\r"
+  },
+  {
+    "fecha": "soportesarl@staffing.com.co",
+    "emisor": "CC",
+    "receptor": "",
+    "concepto": "Laura Cortes | Auxiliar SST",
+    "valor": "2000",
+    "estado": "\r"
+  },
+  {
+    "fecha": "acardona@staffing.com.co",
+    "emisor": "CC",
+    "receptor": "",
+    "concepto": "Andres Cardona | Especialista SST",
+    "valor": "2000",
+    "estado": "\r"
+  },
+  {
+    "fecha": "generalista.ejecafetero@staffing.com.co",
+    "emisor": "CC",
+    "receptor": "",
+    "concepto": "Katherine Bueno | Generalista de TH",
+    "valor": "2000",
+    "estado": "\r"
+  },
+  {
+    "fecha": "dmoreno@staffing.com.co",
+    "emisor": "CC",
+    "receptor": "",
+    "concepto": "Daniel Moreno | Auxiliar Tesoreria",
+    "valor": "2000",
+    "estado": "\r"
+  },
+  {
+    "fecha": "lmorales@staffing.com.co",
+    "emisor": "CC",
+    "receptor": "",
+    "concepto": "Laura Morales | Analista de SST",
+    "valor": "2000",
+    "estado": "\r"
+  },
+  {
+    "fecha": "sruiz@staffing.com.co",
+    "emisor": "CC",
+    "receptor": "",
+    "concepto": "Simon Ruiz | Gestor de Cuentas Estratégicas",
+    "valor": "2000",
+    "estado": "\r"
+  },
+  {
+    "fecha": "gsalinas@staffing.com.co",
+    "emisor": "CC",
+    "receptor": "",
+    "concepto": "Gabriela Salinas | Auxiliar Contable",
+    "valor": "2000",
+    "estado": "\r"
+  },
+  {
+    "fecha": "lramirez@staffing.com.co",
+    "emisor": "CC",
+    "receptor": "",
+    "concepto": "Laura Ramirez | Analista de Contabilidad",
+    "valor": "2000",
+    "estado": "\r"
+  },
+  {
+    "fecha": "dmoreno@staffing.com.co",
+    "emisor": "CC",
+    "receptor": "",
+    "concepto": "Daniel Moreno | Auxiliar Tesoreria",
+    "valor": "2000",
+    "estado": "\r"
+  },
+  {
+    "fecha": "yhiguita@staffing.com.co",
+    "emisor": "CC",
+    "receptor": "",
+    "concepto": "Yerim Higuita | Analista de Atracción de TH",
+    "valor": "2000",
+    "estado": "\r"
+  },
+  {
+    "fecha": "gsalinas@staffing.com.co",
+    "emisor": "CC",
+    "receptor": "",
+    "concepto": "Gabriela Salinas | Auxiliar Contable",
+    "valor": "2000",
+    "estado": "\r"
+  },
+  {
+    "fecha": "vvaliente@staffing.com.co",
+    "emisor": "CC",
+    "receptor": "",
+    "concepto": "Viviana Valiente | Analista de Seguridad Social",
+    "valor": "2000",
+    "estado": ""
+  }
+]
