@@ -4542,5 +4542,21 @@
     "concepto": "Respeto",
     "valor": "2000",
     "estado": "CARGADAS"
+  },
+  {
+    "fecha": "9/09/2026 16:56",
+    "emisor": "Angie Gordillo",
+    "receptor": "Maria Sedano | Analista Comercial Y Administrativa",
+    "concepto": "Actitud de Servicio",
+    "valor": "2000",
+    "estado": "CARGADAS"
+  },
+  {
+    "fecha": "9/15/2026 10:30",
+    "emisor": "Jeniffer Johanna Sanchez Duarte",
+    "receptor": "Maria Sedano | Analista Comercial Y Administrativa",
+    "concepto": "Actitud de Servicio",
+    "valor": "2000",
+    "estado": "CARGADAS"
   }
 ]
